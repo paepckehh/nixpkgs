@@ -16,7 +16,7 @@ in {
       example = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD";
       description = ''
         The apikey to authorise the OPNSense appliance access.
-        - This will set the required OPN_APIKEY enviroment variable. 
+        - This will set the required "OPN_APIKEY" enviroment variable. 
         - Details: https://github.com/paepckehh/opnborg 
         '';
     };
@@ -27,7 +27,7 @@ in {
       example = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
       description = ''
         The apisecret to authorise the OPNSense appliance access.
-        - This will set the required OPN_APISECRET enviroment variable. 
+        - This will set the required "OPN_APISECRET" enviroment variable. 
         - Details: https://github.com/paepckehh/opnborg
         '';
     };
@@ -38,7 +38,7 @@ in {
       example = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
       description = ''
         The tlskeypin of the OPNSense appliance WebUI (selfsigned-) certificate."
-        - This will set the optional OPN_TLSKEYPIN enviroment variable.
+        - This will set the optional "OPN_TLSKEYPIN" enviroment variable.
         - Details: https://github.com/paepckehh/opnborg
         '';
     };
@@ -49,8 +49,8 @@ in {
       example = "opn001.admin.lan:443,opn002.admin.lan:443,opn002.admin.lan:443,opn004.admin.lan:443";
       description = ''
          The OPNSense appliance(s) target hostname(s)[opt:port]. 
+        - This will set the "OPN_TARGETS" enviroment variable.
         - This string expects a comma seperated list.
-        - This will set the OPN_TARGETS enviroment variable.
         - Either OPN_TARGETS or freeform OPN_TARGETS_[...] extraOptions enironment variables are required. 
         - Details: https://github.com/paepckehh/opnborg
         '';
@@ -134,7 +134,16 @@ in {
         PrivateMounts = true;
         MemoryDenyWriteExecute = true;
       };
+
+      environment = {
+        OPN_APIKEY = cfg.apikey;
+        OPN_APISECRET = cfg.apisecret;
+        OPN_TLSKEYPIN = cfg.tlskeypin;
+        OPN_TARGETS = cfg.targets;
+      };
+
     };
+
   };
 
   meta.maintainers = with maintainers; [paepcke];
