@@ -12,7 +12,7 @@ in {
 
     apikey = mkOption {
       type = types.str;
-      default = "";
+      default = null;
       example = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD";
       description = ''
         The apikey to authorise the OPNSense appliance access.
@@ -23,7 +23,7 @@ in {
     
     apisecret = mkOption {
       type = types.str;
-      default = "";
+      default = null;
       example = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
       description = ''
         The apisecret to authorise the OPNSense appliance access.
@@ -34,7 +34,7 @@ in {
     
     tlskeypin = mkOption {
       type = types.str;
-      default = "";
+      default = null;
       example = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
       description = ''
         The tlskeypin of the OPNSense appliance WebUI (selfsigned-) certificate."
@@ -45,7 +45,7 @@ in {
     
     targets = mkOption {
       type = types.str;
-      default = "";
+      default = null;
       example = "opn001.admin.lan:443,opn002.admin.lan:443,opn002.admin.lan:443,opn004.admin.lan:443";
       description = ''
          The OPNSense appliance(s) target hostname(s)[opt:port]. 
@@ -67,7 +67,18 @@ in {
       type = types.listOf types.str;
       default = [];
       example = ''
+        # minimal
         {
+        "OPN_APIKEY" = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD"
+        "OPN_APISECRET = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p"
+        "OPN_TARGETS" = "opn00.lan"
+        }
+        # complex
+        {
+        "OPN_APIKEY" = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD"
+        "OPN_APISECRET = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p"
+        "OPN_TLSKEYPIN = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
+        "OPN_MASTER" = "opn00.lan:8443"
         "OPN_TARGETS_HOTSTANDBY" = "opn00.lan:8443"
         "OPN_TARGETS_IMGURL_HOTSTANDBY" = "https://avatars.githubusercontent.com/u/120342602?s=96&v=4"
         "OPN_TARGETS_PRODUCTION='opn01.lan:8443,opn02.lan:8443"
@@ -115,6 +126,7 @@ in {
       wantedBy = ["multi-user.target"];
       after = ["network.target"];
 
+      environment = cfg.extraOptions; 
       serviceConfig = {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
         KillMode = "process";
@@ -134,14 +146,6 @@ in {
         PrivateMounts = true;
         MemoryDenyWriteExecute = true;
       };
-
-      environment = {
-        OPN_APIKEY = cfg.apikey;
-        OPN_APISECRET = cfg.apisecret;
-        OPN_TLSKEYPIN = cfg.tlskeypin;
-        OPN_TARGETS = cfg.targets;
-      };
-
     };
 
   };
