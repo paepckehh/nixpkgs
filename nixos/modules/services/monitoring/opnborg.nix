@@ -95,7 +95,7 @@ in {
     };
   };
 
-  config = mkIf config.services.opnsense.enable {
+  config = mkIf config.services.opnborg.enable {
     users = {
       users = optionalAttrs (cfg.user == "opnborg") {
         opnborg = {
