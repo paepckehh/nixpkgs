@@ -24,7 +24,6 @@ in {
     apisecret = mkOption {
       type = types.str;
       default = "";
-      description = "The required apisecret to authorise the OPNSense appliance access.";
       example = lib.literalExpression "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
       description = lib.literalExpression ''
         The apisecret to authorise the OPNSense appliance access.
@@ -47,7 +46,7 @@ in {
     targets = mkOption {
       type = types.str;
       default = "";
-      example = lib.literalExpression "opn001.admin.lan:443,opn002.admin.lan:443,opn002.admin.lan:443,opn004.admin.lan:443"
+      example = lib.literalExpression "opn001.admin.lan:443,opn002.admin.lan:443,opn002.admin.lan:443,opn004.admin.lan:443";
       description = lib.literalExpression ''
          The OPNSense appliance(s) target hostname(s)[opt:port]. 
         - This string expects a comma seperated list.
@@ -100,7 +99,7 @@ in {
     users = {
       users = optionalAttrs (cfg.user == "opnborg") {
         opnborg = {
-          description = "OPNBorg service user";
+          description = "opnborg service user";
           isSystemUser = true;
           group = "opnborg";
         };
