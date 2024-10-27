@@ -65,7 +65,7 @@ in {
 
     extraOptions = mkOption {
       type = with types; attrsOf str;
-      default = [];
+      default = {};
       example = ''
         # minimal
         {
