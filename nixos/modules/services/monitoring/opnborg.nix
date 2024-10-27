@@ -68,16 +68,13 @@ in {
       default = {};
       example = ''
         # minimal
-        {
-        "OPN_APIKEY" = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD"
-        "OPN_APISECRET = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p"
-        "OPN_TARGETS" = "opn00.lan"
-        }
+        "OPN_APIKEY" = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD";
+        "OPN_APISECRET" = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
+        "OPN_TARGETS" = "opn00.lan";
         # complex
-        {
         "OPN_APIKEY" = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD"
-        "OPN_APISECRET = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p"
-        "OPN_TLSKEYPIN = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
+        "OPN_APISECRET" = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p"
+        "OPN_TLSKEYPIN" = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
         "OPN_MASTER" = "opn00.lan:8443"
         "OPN_TARGETS_HOTSTANDBY" = "opn00.lan:8443"
         "OPN_TARGETS_IMGURL_HOTSTANDBY" = "https://avatars.githubusercontent.com/u/120342602?s=96&v=4"
@@ -121,8 +118,9 @@ in {
     environment.systemPackages = [pkgs.opnborg];
 
     systemd.services.opnborg = {
-      description = "OPNBorg Service";
       after = ["network.target"];
+      wantedBy = [ "multi-user.target" ];
+      description = "OPNBorg Service";
       environment = cfg.extraOptions; 
       serviceConfig = {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
