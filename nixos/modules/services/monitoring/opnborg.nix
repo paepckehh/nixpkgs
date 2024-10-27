@@ -64,7 +64,7 @@ in {
     };
 
     extraOptions = mkOption {
-      type = types.listOf types.str;
+      type = with types; attrsOf str;
       default = [];
       example = ''
         # minimal
@@ -101,7 +101,7 @@ in {
         '';
       description = ''
         Additional setup enviroment variables
-        - Details and more examples: https://github.com/paepckehh/opnborg
+        Details and more examples: https://github.com/paepckehh/opnborg
         '';
     };
   };
@@ -122,10 +122,7 @@ in {
 
     systemd.services.opnborg = {
       description = "OPNBorg Service";
-
-      wantedBy = ["multi-user.target"];
       after = ["network.target"];
-
       environment = cfg.extraOptions; 
       serviceConfig = {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
