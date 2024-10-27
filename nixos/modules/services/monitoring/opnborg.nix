@@ -4,12 +4,14 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.opnborg;
-in {
+in
+{
   options.services.opnborg = {
     enable = mkEnableOption "opnborg";
-    
+
     user = mkOption {
       type = types.str;
       default = "opnborg";
@@ -19,7 +21,7 @@ in {
 
     extraOptions = mkOption {
       type = with types; attrsOf str;
-      default = {};
+      default = { };
       example = ''
         # minimal
         "OPN_TARGETS" = "opn01.lan";
@@ -48,11 +50,11 @@ in {
         "OPN_GRAFANA_DASHBOARD_HAPROXY" = "rEqu1u5ue/haproxy-2-full";
         "OPN_WAZUH_WEBUI" = "http://localhost:9292";
         "OPN_PROMETHEUS_WEBUI" = "http://localhost:9191";
-        '';
+      '';
       description = ''
         Additional setup enviroment variables
         Details and more examples: https://github.com/paepckehh/opnborg
-        '';
+      '';
     };
   };
 
@@ -65,16 +67,16 @@ in {
           group = "opnborg";
         };
       };
-      groups = optionalAttrs (cfg.user == "opnborg") {opnborg = {};};
+      groups = optionalAttrs (cfg.user == "opnborg") { opnborg = { }; };
     };
 
-    environment.systemPackages = [pkgs.opnborg];
+    environment.systemPackages = [ pkgs.opnborg ];
 
     systemd.services.opnborg = {
-      after = ["network.target"];
+      after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       description = "OPNBorg Service";
-      environment = cfg.extraOptions; 
+      environment = cfg.extraOptions;
       serviceConfig = {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
         KillMode = "process";
@@ -98,5 +100,5 @@ in {
 
   };
 
-  meta.maintainers = with maintainers; [paepcke];
+  meta.maintainers = with maintainers; [ paepcke ];
 }
