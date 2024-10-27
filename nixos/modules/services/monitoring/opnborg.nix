@@ -13,8 +13,8 @@ in {
     apikey = mkOption {
       type = types.str;
       default = "";
-      example = lib.literalExpression "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD";
-      description = lib.literalExpression ''
+      example = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD";
+      description = ''
         The apikey to authorise the OPNSense appliance access.
         - This will set the required OPN_APIKEY enviroment variable. 
         - Details: https://github.com/paepckehh/opnborg 
@@ -24,8 +24,8 @@ in {
     apisecret = mkOption {
       type = types.str;
       default = "";
-      example = lib.literalExpression "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
-      description = lib.literalExpression ''
+      example = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
+      description = ''
         The apisecret to authorise the OPNSense appliance access.
         - This will set the required OPN_APISECRET enviroment variable. 
         - Details: https://github.com/paepckehh/opnborg
@@ -35,8 +35,8 @@ in {
     tlskeypin = mkOption {
       type = types.str;
       default = "";
-      example = lib.literalExpression "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
-      description = lib.literalExpression ''
+      example = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
+      description = ''
         The tlskeypin of the OPNSense appliance WebUI (selfsigned-) certificate."
         - This will set the optional OPN_TLSKEYPIN enviroment variable.
         - Details: https://github.com/paepckehh/opnborg
@@ -46,8 +46,8 @@ in {
     targets = mkOption {
       type = types.str;
       default = "";
-      example = lib.literalExpression "opn001.admin.lan:443,opn002.admin.lan:443,opn002.admin.lan:443,opn004.admin.lan:443";
-      description = lib.literalExpression ''
+      example = "opn001.admin.lan:443,opn002.admin.lan:443,opn002.admin.lan:443,opn004.admin.lan:443";
+      description = ''
          The OPNSense appliance(s) target hostname(s)[opt:port]. 
         - This string expects a comma seperated list.
         - This will set the OPN_TARGETS enviroment variable.
@@ -59,14 +59,14 @@ in {
     user = mkOption {
       type = types.str;
       default = "opnborg";
-      defaultText = lib.literalExpression "opnborg";
+      defaultText = "opnborg";
       description = "The local user to run OPNBorg on this computer with.";
     };
 
     extraOptions = mkOption {
       type = types.listOf types.str;
       default = [];
-      example = lib.literalExpression ''
+      example = ''
         {
         "OPN_TARGETS_HOTSTANDBY" = "opn00.lan:8443"
         "OPN_TARGETS_IMGURL_HOTSTANDBY" = "https://avatars.githubusercontent.com/u/120342602?s=96&v=4"
@@ -88,7 +88,7 @@ in {
         "OPN_PROMETHEUS_WEBUI='http://localhost:9191'
         }
         '';
-      description = lib.literalExpression ''
+      description = ''
         Additional setup enviroment variables
         - Details and more examples: https://github.com/paepckehh/opnborg
         '';
