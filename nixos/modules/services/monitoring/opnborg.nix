@@ -81,7 +81,7 @@ in {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
         KillMode = "process";
         Restart = "always";
-        PreStart = "cd /var/lib/opnborg"
+        PreStart = "cd /var/lib/opnborg";
         User = "opnborg";
         StateDirectory = "opnborg";
         StateDirectoryMode = "0750";
