@@ -4,24 +4,15 @@
   lib,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.services.opnborg;
-in
-{
+in {
   options.services.opnborg = {
     enable = mkEnableOption "opnborg";
 
-    user = mkOption {
-      type = types.str;
-      default = "opnborg";
-      defaultText = "opnborg";
-      description = "The local user to run OPNBorg on this computer with.";
-    };
-
     extraOptions = mkOption {
       type = with types; attrsOf str;
-      default = { };
+      default = {};
       example = ''
         # minimal config
         "OPN_TARGETS" = "opn01.lan";
@@ -67,17 +58,19 @@ in
           uid = 6464;
           isSystemUser = true;
           group = "opnborg";
-
         };
       };
-      groups = optionalAttrs (cfg.user == "opnborg") { opnborg = { }; };
+      groups.opnborg = {
+        gid = 6464;
+        description = "opnborg service account group";
+      };
     };
 
-    environment.systemPackages = [ pkgs.opnborg ];
+    environment.systemPackages = [pkgs.opnborg];
 
     systemd.services.opnborg = {
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
+      after = ["network.target"];
+      wantedBy = ["multi-user.target"];
       description = "OPNBorg Service";
       environment = cfg.extraOptions;
       serviceConfig = {
@@ -92,11 +85,10 @@ in
         MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
         ProtectSystem = "full";
-        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+        RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
       };
     };
-
   };
 
-  meta.maintainers = with maintainers; [ paepcke ];
+  meta.maintainers = with maintainers; [paepcke];
 }
