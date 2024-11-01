@@ -80,11 +80,9 @@ in {
         User = "opnborg";
         WorkingDirectory = "/var/lib/opnborg";
         # Hardening
-        DevicePolicy = "strict";
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
-        ProtectSystem = "full";
         RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
       };
     };
