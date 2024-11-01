@@ -63,7 +63,6 @@ in {
         name = "opnborg";
         members = "opnborg";
         gid = 6464;
-        description = "opnborg service account group";
       };
     };
 
