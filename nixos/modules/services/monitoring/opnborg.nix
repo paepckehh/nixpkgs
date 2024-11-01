@@ -83,7 +83,7 @@ in {
         User = "opnborg";
         StateDirectory = "opnborg";
         StateDirectoryMode = "0750";
-        WorkingDirectoru = "/var/lib/opnborg";
+        WorkingDirectory = "/var/lib/opnborg";
         MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
         RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
