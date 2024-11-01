@@ -54,15 +54,17 @@ in {
     users = {
       users = {
         opnborg = {
+          createHome = true;
           description = "opnborg service account";
-          uid = 6464;
+          uid = 6464; 
           isSystemUser = true;
           group = "opnborg";
+          home = "/var/lib/opnborg";
         }; };
       groups."opnborg" = {
         name = "opnborg";
         members = [ "opnborg" ];
-        gid = 6464;
+        gid = 6464; #
       };
     };
 
@@ -78,7 +80,7 @@ in {
         KillMode = "process";
         Restart = "always";
         User = "opnborg";
-        WorkingDirectory = "/var/lib/opnborg";
+        StateDirectory = "opnborg";
         # Hardening
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
