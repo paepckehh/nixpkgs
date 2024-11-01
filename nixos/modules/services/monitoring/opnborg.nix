@@ -74,7 +74,7 @@ in {
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
       description = "OPNBorg Service";
-      preStart = "cd /var/lib/opnborg"
+      # preStart = "cd /var/lib/opnborg";
       environment = cfg.extraOptions;
       serviceConfig = {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
@@ -83,8 +83,7 @@ in {
         User = "opnborg";
         StateDirectory = "opnborg";
         StateDirectoryMode = "0750";
-        # Hardening
-        LockPersonality = true;
+        WorkingDirectoru = "/var/lib/opnborg";
         MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
         RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
