@@ -58,9 +58,10 @@ in {
           uid = 6464;
           isSystemUser = true;
           group = "opnborg";
-        };
-      };
-      groups.opnborg = {
+        }; };
+      groups."opnborg" = {
+        name = "opnborg";
+        members = "opnborg";
         gid = 6464;
         description = "opnborg service account group";
       };
