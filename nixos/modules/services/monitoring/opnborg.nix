@@ -23,11 +23,11 @@ in
       type = with types; attrsOf str;
       default = { };
       example = ''
-        # minimal
+        # minimal config
         "OPN_TARGETS" = "opn01.lan";
         "OPN_APIKEY" = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD";
         "OPN_APISECRET" = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
-        # complex
+        # full example
         "OPN_APIKEY" = "+RIb6YWNdcDWMMM7W5ZYDkUvP4qx6e1r7e/Lg/Uh3aBH+veuWfKc7UvEELH/lajWtNxkOaOPjWR8uMcD";
         "OPN_APISECRET" = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
         "OPN_TLSKEYPIN" = "8VbjM3HKKqQW2ozOe5PTicMXOBVi9jZTSPCGfGrHp8rW6m+TeTxHyZyAI1GjERbuzjmz6jK/usMCWR/p";
@@ -40,7 +40,7 @@ in
         "OPN_DEBUG" = "true";
         "OPN_SYNC_PKG" = "true";
         "OPN_HTTPD_ENABLE" = "true";
-        "OPN_HTTPD_SERVER" = "127.0.0.1:6464";
+        "OPN_HTTPD_SERVER" = "127.0.0.1:6464"; # port must be above 1024
         "OPN_HTTPD_COLOR_FG" = "white";
         "OPN_HTTPD_COLOR_BG" = "grey";
         "OPN_RSYSLOG_ENABLE" = "true";
@@ -54,17 +54,20 @@ in
       description = ''
         Additional setup enviroment variables
         Details and more examples: https://github.com/paepckehh/opnborg
+        Keep tcp port numbers > 1024.
       '';
     };
   };
 
   config = mkIf config.services.opnborg.enable {
     users = {
-      users = optionalAttrs (cfg.user == "opnborg") {
+      users = {
         opnborg = {
-          description = "opnborg service user";
+          description = "opnborg service account";
+          uid = 6464;
           isSystemUser = true;
           group = "opnborg";
+
         };
       };
       groups = optionalAttrs (cfg.user == "opnborg") { opnborg = { }; };
@@ -81,20 +84,15 @@ in
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
         KillMode = "process";
         Restart = "always";
-        User = cfg.user;
-        ProtectSystem = "strict";
-        ProtectHome = true;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        ProtectKernelTunables = true;
-        ProtectKernelModules = true;
-        ProtectControlGroups = true;
-        RuntimeDirectory = "opnborg";
-        CapabilityBoundingSet = "";
+        User = "opnborg";
+        WorkingDirectory = "/var/lib/opnborg";
+        # Hardening
+        DevicePolicy = "strict";
         LockPersonality = true;
-        RestrictRealtime = true;
-        PrivateMounts = true;
         MemoryDenyWriteExecute = true;
+        NoNewPrivileges = true;
+        ProtectSystem = "full";
+        RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
       };
     };
 
