@@ -45,7 +45,8 @@ in {
       description = ''
         Additional setup enviroment variables
         Details and more examples: https://github.com/paepckehh/opnborg
-        Keep tcp port numbers > 1024.
+        - Keep tcp port numbers > 1024.
+        - Storage Path: /var/lib/opnborg (do not set OPN_PATH)
       '';
     };
   };
@@ -80,6 +81,7 @@ in {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
         KillMode = "process";
         Restart = "always";
+        PreStart = "cd /var/lib/opnborg"
         User = "opnborg";
         StateDirectory = "opnborg";
         StateDirectoryMode = "0750";
