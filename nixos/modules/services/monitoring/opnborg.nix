@@ -81,6 +81,7 @@ in {
         Restart = "always";
         User = "opnborg";
         StateDirectory = "opnborg";
+        StateDirectoryMode = "0750";
         # Hardening
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
