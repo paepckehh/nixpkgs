@@ -74,6 +74,7 @@ in {
       after = ["network.target"];
       wantedBy = ["multi-user.target"];
       description = "OPNBorg Service";
+      preStart = "cd /var/lib/opnborg"
       environment = cfg.extraOptions;
       serviceConfig = {
         ExecStart = "${pkgs.opnborg}/bin/opnborg";
