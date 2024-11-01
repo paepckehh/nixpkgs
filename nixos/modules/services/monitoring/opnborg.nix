@@ -61,7 +61,7 @@ in {
         }; };
       groups."opnborg" = {
         name = "opnborg";
-        members = "opnborg";
+        members = [ "opnborg" ];
         gid = 6464;
       };
     };
