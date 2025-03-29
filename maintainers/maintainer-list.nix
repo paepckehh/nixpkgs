@@ -2487,6 +2487,11 @@
     githubId = 206242;
     name = "Andreas Wiese";
   };
+  aware70 = {
+    name = "aware70";
+    github = "aware70";
+    githubId = 7832566;
+  };
   awwpotato = {
     email = "awwpotato@voidq.com";
     github = "awwpotato";
@@ -2890,6 +2895,13 @@
     email = "zbeezow@gmail.com";
     github = "beezow";
     githubId = 42082156;
+  };
+  bellackn = {
+    name = "Nico Bellack";
+    email = "blcknc@pm.me";
+    github = "bellackn";
+    githubId = 32039602;
+    keys = [ { fingerprint = "2B46 58FF 887A 8366 F88B  BE92 CF83 0BB3 B973 9A6A"; } ];
   };
   ben9986 = {
     name = "Ben Carmichael";
@@ -21409,6 +21421,12 @@
     github = "Schweber";
     githubId = 64630479;
     name = "Schweber";
+  };
+  SchweGELBin = {
+    email = "abramjannikmichael06@gmail.com";
+    name = "Jannik Michael Abram";
+    github = "SchweGELBin";
+    githubId = 67663319;
   };
   sciencentistguy = {
     email = "jamie@quigley.xyz";
