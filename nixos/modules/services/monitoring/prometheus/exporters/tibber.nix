@@ -3,15 +3,13 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.prometheus.exporters.tibber;
   inherit (lib) mkOption types concatStringsSep;
-in
-{
+in {
   port = 8080;
   extraOpts = {
-    apiTokeFile = mkOption {
+    apiTokenFile = mkOption {
       type = types.path;
       default = null;
       example = /etc/nixos/.keys/tibber.txt;
@@ -25,8 +23,8 @@ in
   };
   serviceOpts = {
     serviceConfig = {
-      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
-      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
+      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
       MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
       ProtectClock = true;
