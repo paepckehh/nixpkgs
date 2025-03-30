@@ -3,15 +3,12 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.prometheus.exporters.tibber;
-  inherit
-    (lib)
-    mkOption
-    types
-    concatStringsSep
-    ;
-in {
+  inherit (lib) mkOption types concatStringsSep;
+in
+{
   port = 8080;
   extraOpts = {
     apiTokeFile = mkOption {
@@ -25,20 +22,11 @@ in {
         Do not commit you Tibber API Token to you github repo!
       '';
     };
-    liveHomeID = mkOption {
-      type = types.string;
-      default = "";
-      example = "96a14971-525a-4420-aae9-e5aedaa129ff";
-      description = ''
-        Tibber home_id (uid) to monitor.
-        Access to this home must be authorised via matching tibber user api token.
-      '';
-    };
   };
   serviceOpts = {
     serviceConfig = {
-      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
-      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
+      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
       MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
       ProtectClock = true;
