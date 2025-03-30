@@ -3,13 +3,15 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.prometheus.exporters.tibber;
   inherit (lib) mkOption types concatStringsSep;
-in {
+in
+{
   port = 8080;
   extraOpts = {
-    apiTokenFile = mkOption {
+    apiToken = mkOption {
       type = types.str;
       default = "5K4MVS-OjfWhK_4yrjOlFe1F6kJXPVf7eQYggo8ebAE";
       example = "5K4MVS-OjfWhK_4yrjOlFe1F6kJXPVf7eQYggo8ebAE";
@@ -21,9 +23,12 @@ in {
     };
   };
   serviceOpts = {
+    environment = {
+      TIBBER_TOKEN = cfg.apiToken;
+    };
     serviceConfig = {
-      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
-      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
+      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
       MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
       ProtectClock = true;
@@ -36,7 +41,6 @@ in {
       RestrictNamespaces = true;
       RestrictRealtime = true;
       ExecStart = ''
-        TIBBER_TOKEN=$(cat ${cfg.apiTokenFile}) \
         ${pkgs.prometheus-tibber-exporter}/bin/tibber-exporter \
         --listen-address ${cfg.listenAddress}:${toString cfg.port} \
         ${concatStringsSep " \\\n  " cfg.extraFlags}
