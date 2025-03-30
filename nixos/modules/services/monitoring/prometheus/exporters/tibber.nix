@@ -10,12 +10,11 @@ in {
   port = 8080;
   extraOpts = {
     apiTokenFile = mkOption {
-      type = types.path;
-      default = null;
-      example = /etc/nixos/.keys/tibber.txt;
+      type = types.str;
+      default = "5K4MVS-OjfWhK_4yrjOlFe1F6kJXPVf7eQYggo8ebAE";
+      example = "5K4MVS-OjfWhK_4yrjOlFe1F6kJXPVf7eQYggo8ebAE";
       description = ''
-        File containing your personal Tibber API Token ('Bearer Token').
-        Api Token File example content (non-functional!): 5K4MVS-OjfWhK_4yrjOlFe1F6kJXPVf7eQYggo8ebAE
+        Your personal Tibber API Token ('Bearer Token').
         Do not share your Tibber API Token with anyone!
         Do not commit you Tibber API Token to you github repo!
       '';
