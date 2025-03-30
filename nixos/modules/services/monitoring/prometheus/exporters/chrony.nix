@@ -15,6 +15,15 @@
 in {
   port = 9123;
   extraOpts = {
+    chronyServerAddress = mkOption {
+      type = types.str;
+      default = "unix:///run/chrony/chronyd.sock";
+      example = ["192.82.0.1:323"];
+      description = ''
+        ChronyServerAddress of the chrony server side command port. (Not enabled by default.)
+        Defaults to the local unix socket.
+      '';
+    };
     user = mkOption {
       type = types.str;
       default = "chrony";
@@ -54,7 +63,7 @@ in {
       example = ["sources.with-ntpdata"];
       description = ''
         Collectors to disable which are enabled by default.
-        Disable sources.with-ntpdata for remote scraper. Option requires unix socket.
+        Disable sources.with-ntpdata for network scraper. Option requires unix socket.
       '';
     };
   };
@@ -78,8 +87,8 @@ in {
         ${lib.getExe pkgs.prometheus-chrony-exporter} \
           ${concatMapStringsSep " " (x: "--collector." + x) cfg.enabledCollectors} \
           ${concatMapStringsSep " " (x: "--no-collector." + x) cfg.disabledCollectors} \
+          --chrony.address ${cfg.chronyServerAddress} \
           --web.listen-address ${cfg.listenAddress}:${toString cfg.port} \
-          --web.systemd-socket \
           ${concatStringsSep " " cfg.extraFlags}
       '';
     };
