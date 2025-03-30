@@ -12,7 +12,7 @@ in {
   serviceOpts = {
     serviceConfig = {
       environment = {
-        PROMETHEUS_ENABLED = true;
+        PROMETHEUS_ENABLED = "true";
       };
       ExecStart = ''
         ${pkgs.go-ecoflow-exporter}/bin/go-ecoflow-exporter \
