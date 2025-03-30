@@ -4,16 +4,13 @@
   pkgs,
   options,
   ...
-}:
-
-let
+}: let
   cfg = config.services.prometheus.exporters.bitcoin;
   inherit (lib) mkOption types concatStringsSep;
-in
-{
+in {
   port = 9332;
   extraOpts = {
-    package = lib.mkPackageOption pkgs "prometheus-bitcoin-exporter" { };
+    package = lib.mkPackageOption pkgs "prometheus-bitcoin-exporter" {};
 
     rpcUser = mkOption {
       type = types.str;
@@ -67,7 +64,7 @@ in
 
     extraEnv = mkOption {
       type = types.attrsOf types.str;
-      default = { };
+      default = {};
       description = ''
         Extra environment variables for the exporter.
       '';
@@ -79,14 +76,16 @@ in
       exec ${cfg.package}/bin/bitcoind-monitor.py
     '';
 
-    environment = {
-      BITCOIN_RPC_USER = cfg.rpcUser;
-      BITCOIN_RPC_SCHEME = cfg.rpcScheme;
-      BITCOIN_RPC_HOST = cfg.rpcHost;
-      BITCOIN_RPC_PORT = toString cfg.rpcPort;
-      METRICS_ADDR = cfg.listenAddress;
-      METRICS_PORT = toString cfg.port;
-      REFRESH_SECONDS = toString cfg.refreshSeconds;
-    } // cfg.extraEnv;
+    environment =
+      {
+        BITCOIN_RPC_USER = cfg.rpcUser;
+        BITCOIN_RPC_SCHEME = cfg.rpcScheme;
+        BITCOIN_RPC_HOST = cfg.rpcHost;
+        BITCOIN_RPC_PORT = toString cfg.rpcPort;
+        METRICS_ADDR = cfg.listenAddress;
+        METRICS_PORT = toString cfg.port;
+        REFRESH_SECONDS = toString cfg.refreshSeconds;
+      }
+      // cfg.extraEnv;
   };
 }

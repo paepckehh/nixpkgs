@@ -4,13 +4,10 @@
   pkgs,
   options,
   ...
-}:
-
-let
+}: let
   cfg = config.services.prometheus.exporters.shelly;
   inherit (lib) mkOption types;
-in
-{
+in {
   port = 9784;
   extraOpts = {
     metrics-file = mkOption {
