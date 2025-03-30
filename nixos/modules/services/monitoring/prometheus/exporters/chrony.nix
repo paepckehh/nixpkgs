@@ -3,17 +3,16 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.prometheus.exporters.chrony;
-  inherit (lib)
+  inherit
+    (lib)
     mkOption
     types
     concatStringsSep
     concatMapStringsSep
     ;
-in
-{
+in {
   port = 9123;
   extraOpts = {
     user = mkOption {
@@ -43,7 +42,7 @@ in
         "serverstats"
         "dns-lookups"
       ];
-      example = [ "dns-lookups" ];
+      example = ["dns-lookups"];
       description = ''
         Collectors to enable.
         Currently all collectors are enabled by default.
@@ -51,8 +50,8 @@ in
     };
     disabledCollectors = mkOption {
       type = types.listOf types.str;
-      default = [ ];
-      example = [ "sources.with-ntpdata" ];
+      default = [];
+      example = ["sources.with-ntpdata"];
       description = ''
         Collectors to disable which are enabled by default.
         Disable sources.with-ntpdata for remote scraper. Option requires unix socket.
@@ -61,8 +60,8 @@ in
   };
   serviceOpts = {
     serviceConfig = {
-      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
-      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
+      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
       MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
       ProtectClock = true;
@@ -79,7 +78,9 @@ in
         ${lib.getExe pkgs.prometheus-chrony-exporter} \
           ${concatMapStringsSep " " (x: "--collector." + x) cfg.enabledCollectors} \
           ${concatMapStringsSep " " (x: "--no-collector." + x) cfg.disabledCollectors} \
-          --web.listen-address ${cfg.listenAddress}:${toString cfg.port} ${concatStringsSep " " cfg.extraFlags}
+          --web.listen-address ${cfg.listenAddress}:${toString cfg.port} \
+          --web.systemd-socket \
+          ${concatStringsSep " " cfg.extraFlags}
       '';
     };
   };
