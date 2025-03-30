@@ -10,10 +10,10 @@
 in {
   port = 2112;
   serviceOpts = {
-    environment = {
-      PROMETHEUS_ENABLED = true;
-    };
     serviceConfig = {
+      environment = {
+        PROMETHEUS_ENABLED = true;
+      };
       ExecStart = ''
         ${pkgs.go-ecoflow-exporter}/bin/go-ecoflow-exporter \
           --bind ${cfg.listenAddress}:${toString cfg.port} \
