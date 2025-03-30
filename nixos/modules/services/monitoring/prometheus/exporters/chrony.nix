@@ -13,7 +13,7 @@ in {
     serviceConfig = {
       ExecStart = ''
         ${pkgs.prometheus-chrony-exporter}/bin/chrony_exporter \
-          --bind ${cfg.listenAddress}:${toString cfg.port} \
+          --web.listen-address=${cfg.listenAddress}:${toString cfg.port} \
           ${concatStringsSep " \\\n  " cfg.extraFlags}
       '';
     };

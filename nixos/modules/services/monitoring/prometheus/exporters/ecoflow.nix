@@ -10,6 +10,9 @@
 in {
   port = 2112;
   serviceOpts = {
+    environment = {
+      PROMETHEUS_ENABLED = true;
+    };
     serviceConfig = {
       ExecStart = ''
         ${pkgs.go-ecoflow-exporter}/bin/go-ecoflow-exporter \

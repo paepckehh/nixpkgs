@@ -13,7 +13,7 @@ in {
     serviceConfig = {
       ExecStart = ''
         ${pkgs.prometheus-tibber-exporter}/bin/tibber-exporter \
-          --bind ${cfg.listenAddress}:${toString cfg.port} \
+          --listen-address ${cfg.listenAddress}:${toString cfg.port} \
           ${concatStringsSep " \\\n  " cfg.extraFlags}
       '';
     };
