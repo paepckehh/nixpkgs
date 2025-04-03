@@ -22,7 +22,7 @@ in {
   };
   serviceOpts = {
     script = ''
-      export TIBBER_TOKEN="$(cat ${toString cfg.apiTokenPath}"
+      export TIBBER_TOKEN="$(cat ${toString cfg.apiTokenPath})"
       exec ${pkgs.prometheus-tibber-exporter}/bin/tibber-exporter --listen-address ${cfg.listenAddress}:${toString cfg.port} ${concatStringsSep " \\\n  " cfg.extraFlags}
     '';
     serviceConfig = {
