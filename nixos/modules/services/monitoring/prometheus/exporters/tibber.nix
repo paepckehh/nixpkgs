@@ -3,32 +3,27 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.prometheus.exporters.tibber;
   inherit (lib) mkOption types concatStringsSep;
-in
-{
+in {
   port = 8080;
   extraOpts = {
     apiToken = mkOption {
-      type = types.str;
-      default = "5K4MVS-OjfWhK_4yrjOlFe1F6kJXPVf7eQYggo8ebAE";
+      type = types.path;
+      default = null;
       description = ''
-        Add here your personal Tibber API Token ('Bearer Token').
+        Add here your personal Tibber API Token ('Bearer Token') File.
         Get your personal Tibber API Token here: https://developer.tibber.com
         Do not share your personal plaintext Tibber API Token via github. (see: ryantm/agenix, mic92/sops)
-        The default token will only provide some synthetic invalid sample data.
+        The provided default token will only provide some synthetic invalid sample data.
       '';
     };
   };
   serviceOpts = {
-    environment = {
-      TIBBER_TOKEN = cfg.apiToken;
-    };
     serviceConfig = {
-      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
-      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
+      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
       MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
       ProtectSystem = "strict";
@@ -38,6 +33,7 @@ in
         "AF_INET6"
       ];
       RestrictNamespaces = true;
+      ExecStartPre = ''export TIBBER_TOKEN="$(cat ${toString cfg.tokenPath})";
       ExecStart = ''
         ${pkgs.prometheus-tibber-exporter}/bin/tibber-exporter \
         --listen-address ${cfg.listenAddress}:${toString cfg.port} \
