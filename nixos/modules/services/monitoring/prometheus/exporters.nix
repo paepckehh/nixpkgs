@@ -64,6 +64,7 @@ let
         "dnssec"
         "domain"
         "dovecot"
+        "ecoflow"
         "fastly"
         "flow"
         "fritz"
