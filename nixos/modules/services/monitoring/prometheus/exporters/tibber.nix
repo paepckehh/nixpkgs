@@ -21,6 +21,10 @@ in {
     };
   };
   serviceOpts = {
+    script = ''
+      export TIBBER_TOKEN="$(cat ${toString cfg.apiTokenPath}"
+      exec ${pkgs.prometheus-tibber-exporter}/bin/tibber-exporter --listen-address ${cfg.listenAddress}:${toString cfg.port} ${concatStringsSep " \\\n  " cfg.extraFlags}
+    '';
     serviceConfig = {
       AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
       CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
@@ -33,12 +37,6 @@ in {
         "AF_INET6"
       ];
       RestrictNamespaces = true;
-      ExecStartPre = ''export TIBBER_TOKEN="$(cat ${toString cfg.apiTokenPath})"'';
-      ExecStart = ''
-        ${pkgs.prometheus-tibber-exporter}/bin/tibber-exporter \
-        --listen-address ${cfg.listenAddress}:${toString cfg.port} \
-        ${concatStringsSep " \\\n  " cfg.extraFlags}
-      '';
     };
   };
 }
