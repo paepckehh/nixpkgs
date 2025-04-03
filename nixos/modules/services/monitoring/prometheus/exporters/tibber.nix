@@ -33,10 +33,10 @@ in {
         "AF_INET6"
       ];
       RestrictNamespaces = true;
+      ExecStartPre = ''export TIBBER_TOKEN="$(cat ${toString cfg.apiTokenPath})"'';
       ExecStart = ''
         ${pkgs.prometheus-tibber-exporter}/bin/tibber-exporter \
-        -listen-address ${cfg.listenAddress}:${toString cfg.port} \
-        -token "$(cat ${toString cfg.apiTokenPath})" \
+        --listen-address ${cfg.listenAddress}:${toString cfg.port} \
         ${concatStringsSep " \\\n  " cfg.extraFlags}
       '';
     };
