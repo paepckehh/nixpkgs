@@ -3,10 +3,12 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.prometheus.exporters.ecoflow;
   inherit (lib) mkOption types;
-in {
+in
+{
   port = 2112;
   extraOpts = {
     exporterType = mkOption {
@@ -132,8 +134,8 @@ in {
       export ECOFLOW_DEVICES_PRETTY_NAMES="$(cat ${toString cfg.ecoflowDevicesPrettyNamesFile})"
       exec ${lib.getExe pkgs.go-ecoflow-exporter}'';
     serviceConfig = {
-      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
-      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
+      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
       MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
       ProtectSystem = "strict";
