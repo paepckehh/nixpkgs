@@ -126,6 +126,7 @@ in
       MQTT_DEVICE_OFFLINE_THRESHOLD_SECONDS = toString cfg.mqttDeviceOfflineThreshold;
     };
     script = ''
+      uid
       export ECOFLOW_ACCESS_KEY="$(cat ${toString cfg.ecoflowAccessKeyFile})"
       export ECOFLOW_SECRET_KEY="$(cat ${toString cfg.ecoflowSecretKeyFile})"
       export ECOFLOW_EMAIL="$(cat ${toString cfg.ecoflowEmailFile})"
