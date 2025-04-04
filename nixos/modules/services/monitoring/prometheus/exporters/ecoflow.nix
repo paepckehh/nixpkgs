@@ -3,12 +3,10 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.prometheus.exporters.ecoflow;
   inherit (lib) mkOption types;
-in
-{
+in {
   port = 2112;
   extraOpts = {
     exporterType = mkOption {
@@ -126,17 +124,17 @@ in
       MQTT_DEVICE_OFFLINE_THRESHOLD_SECONDS = toString cfg.mqttDeviceOfflineThreshold;
     };
     script = ''
-      uid
       export ECOFLOW_ACCESS_KEY="$(cat ${toString cfg.ecoflowAccessKeyFile})"
       export ECOFLOW_SECRET_KEY="$(cat ${toString cfg.ecoflowSecretKeyFile})"
       export ECOFLOW_EMAIL="$(cat ${toString cfg.ecoflowEmailFile})"
       export ECOFLOW_PASSWORD="$(cat ${toString cfg.ecoflowPasswordFile})"
       export ECOFLOW_DEVICES="$(cat ${toString cfg.ecoflowDevicesFile})"
       export ECOFLOW_DEVICES_PRETTY_NAMES="$(cat ${toString cfg.ecoflowDevicesPrettyNamesFile})"
+      echo $(id)
       exec ${lib.getExe pkgs.go-ecoflow-exporter}'';
     serviceConfig = {
-      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
-      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
+      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
       MemoryDenyWriteExecute = true;
       NoNewPrivileges = true;
       ProtectSystem = "strict";
