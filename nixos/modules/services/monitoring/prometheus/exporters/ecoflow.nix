@@ -130,7 +130,7 @@ in {
       export ECOFLOW_PASSWORD="$(cat ${toString cfg.ecoflowPasswordFile})"
       export ECOFLOW_DEVICES="$(cat ${toString cfg.ecoflowDevicesFile})"
       export ECOFLOW_DEVICES_PRETTY_NAMES="$(cat ${toString cfg.ecoflowDevicesPrettyNamesFile})"
-      echo $(id)
+      echo $USER
       exec ${lib.getExe pkgs.go-ecoflow-exporter}'';
     serviceConfig = {
       AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
